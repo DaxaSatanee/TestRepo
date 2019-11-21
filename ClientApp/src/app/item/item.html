@@ -1,0 +1,30 @@
+<h1 id="tableLabel">Items</h1>
+
+<ul>
+  <li *ngFor="let food of foods">
+  <input type="text" name="food-name" [(ngModel)]="food.name"><button (click)="updateFood(food)">Save</button>
+  <button (click)="deleteFood(food)">Delete</button>
+  </li>
+</ul>
+<p>Create a new Item: <input type="text" #IName><button (click)="saveItem(IName.value)">Save</button></p>
+
+<p *ngIf="!items"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="items">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let itemO of items">
+      <td>{{ itemO.id }}</td>
+      <td>{{ itemO.name }}</td>
+      <td>{{ itemO.price }}</td>
+      <td><a class="fa fa-Home"></a></td>
+    </tr>
+  </tbody>
+</table>
