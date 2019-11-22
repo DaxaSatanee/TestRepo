@@ -1,19 +1,18 @@
-import { Component, Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { debug } from 'util';
-//import { Observable } from 'rxjs/Observable';
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-item',
 	templateUrl: './item.html'
 })
 
-@Injectable()
 export class itemC {
 	public items: itemI[];
-	myAppUrl: string = "";
-	private headers: HttpHeaders;
+	public myAppUrl: string = "";
+	public selectedItem: itemI = { id: 0, name: "", price: 0, oper: "add" };
+	IName = new FormControl();
+
 
 	constructor(public http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
 		this.myAppUrl = baseUrl;
@@ -22,10 +21,27 @@ export class itemC {
 		}, error => console.error(error));
 	};
 
-	saveItem(item) {
-		return this.http.post(this.myAppUrl + 'item/save', { "name": item }, { headers: this.headers });
+	saveItem(Id, Name, Price) {
+		var IId = parseInt(Id);
+		IId = isNaN(IId) ? 0 : IId;
+
+		const formData = new FormData();
+		formData.append('Id', IId.toString());
+		formData.append('Name', Name);
+
+		this.http
+			.post<itemI[]>(this.myAppUrl + 'item/save', formData)
+			.subscribe(data => {
+				this.items = data;
+			}, error => {
+				console.log(error);
+			});
+
 	}
 
+	editItem(item) {
+		this.IName.setValue(item.Name);
+	}
 	//errorHandler(error: Response) {
 	//	console.log(error);
 	//	return Observable.throw(error);
@@ -41,4 +57,5 @@ interface itemI {
 	id: number;
 	name: string;
 	price: number;
+	oper: string;
 }

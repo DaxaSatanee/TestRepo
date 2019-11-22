@@ -1,13 +1,17 @@
 <h1 id="tableLabel">Items</h1>
 
-<ul>
-  <li *ngFor="let food of foods">
-  <input type="text" name="food-name" [(ngModel)]="food.name"><button (click)="updateFood(food)">Save</button>
-  <button (click)="deleteFood(food)">Delete</button>
-  </li>
-</ul>
-<p>Create a new Item: <input type="text" #IName><button (click)="saveItem(IName.value)">Save</button></p>
-<p>Add Item</p>
+<form>
+  <p>
+    Item: <input [(formControl)]="IName" type="text" #IName>
+    <input type="hidden" #IId>
+  </p>
+  <p>
+    Price: <input type="number" #IPrice>
+  </p>
+  <p>
+    <button (click)="saveItem(IId.value,IName.value,IPrice.value)">Save</button>
+  </p>
+</form>
 
 <p *ngIf="!items"><em>Loading...</em></p>
 
@@ -17,6 +21,7 @@
       <th>Id</th>
       <th>Name</th>
       <th>Price</th>
+      <th>Edit</th>
       <th>Delete</th>
     </tr>
   </thead>
@@ -25,7 +30,8 @@
       <td>{{ itemO.id }}</td>
       <td>{{ itemO.name }}</td>
       <td>{{ itemO.price }}</td>
-      <td><a class="fa fa-Home"></a></td>
+      <td><button (click)="editItem(itemO)">Edit</button></td>
+      <td><button (click)="deleteItem(itemO.id)">Delete</button></td>
     </tr>
   </tbody>
 </table>
