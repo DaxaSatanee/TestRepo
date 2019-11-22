@@ -11,7 +11,7 @@ export class itemC {
 	public items: itemI[];
 	public myAppUrl: string = "";
 	public selectedItem: itemI = { id: 0, name: "", price: 0, oper: "add" };
-	IName = new FormControl();
+	//IName = new FormControl();
 
 
 	constructor(public http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -40,7 +40,7 @@ export class itemC {
 	}
 
 	editItem(item) {
-		this.IName.setValue(item.Name);
+		this.selectedItem = item;
 	}
 	//errorHandler(error: Response) {
 	//	console.log(error);

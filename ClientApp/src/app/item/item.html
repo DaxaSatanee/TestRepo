@@ -1,8 +1,8 @@
 <h1 id="tableLabel">Items</h1>
 
-<form>
+
   <p>
-    Item: <input [(formControl)]="IName" type="text" #IName>
+    Item: <input [(ngModel)]="selectedItem.Name" type="text" #IName>
     <input type="hidden" #IId>
   </p>
   <p>
@@ -11,7 +11,7 @@
   <p>
     <button (click)="saveItem(IId.value,IName.value,IPrice.value)">Save</button>
   </p>
-</form>
+
 
 <p *ngIf="!items"><em>Loading...</em></p>
 
